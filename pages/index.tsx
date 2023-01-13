@@ -37,12 +37,11 @@ type PostDetail = {
 };
 
 export default function Home() {
-  const postManagerContract =
-    "Replace with your post manager smart contract address"; //postManager smart contract address
+  const postManagerContract = "0xc50be80bbe51f8cfdfd5f112c3e1036576c07eb4"; //postManager smart contract address
 
   //variables
   const [token, setToken] = useState<string>(
-    "Replace and add your web3 api key here."
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkxODNBNDQ2QjVBNWIwNTc5MkNhMDJmMTg2NTRlQzZCNmYxYjExYmMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzM1OTQ4NTAxNzIsIm5hbWUiOiJteVRva2VuIn0.TLBI5PuN2bLiBEK7HIp59XN43EtTQR0f3BzxrJhxugA"
   );
 
   const [postTitle, setPostTitle] = useState<string>("");
@@ -98,10 +97,13 @@ export default function Home() {
       );
 
       //(1) call the getPosts function from the contract to get all Posts contract addresses
-
+      const allPostsAddresses = await postManagerContractInstance.getPosts();
       //(2) call getPostsData function from contract
-
+      const allPosts = await postManagerContractInstance.getPostsData(
+        allPostsAddresses
+      );
       //(3) set latest cid using react set variable
+      setLatestCid(allPosts.postCID);
 
       // declare new array
       let new_posts = [];
@@ -183,6 +185,9 @@ export default function Home() {
         ];
         const buffer = Buffer.from(JSON.stringify(postObj));
 
+        const files = [new File([buffer], "post.json")];
+        const cid = await storage.put(files);
+        setLatestCid(cid);
         //(4) call web3.storage API function to store data on IPFS as JSON
 
         closeModal();
@@ -205,10 +210,15 @@ export default function Home() {
           );
 
           // (5) call postManager create post function from the contract
+          let { hash } = await postManagerContractInstance.createPost(cid, {
+            gasLimit: 1200000,
+          });
 
           // (6) wait for transaction to be mined
+          await provider.waitForTransaction(hash);
 
           // (7) display alert message
+          alert(`Transaction sent! Hash: ${hash}`);
         }
 
         //call getAllPosts function to refresh the current list of post
@@ -365,10 +375,17 @@ export default function Home() {
         );
 
         // (8) call postManager addComment function from the contract
-
+        let { hash } = await postManagerContractInstance.addComment(
+          newCid,
+          postData.postSCAddress,
+          {
+            gasLimit: 1200000,
+          }
+        );
         // (9) wait for transaction to be mined
-
+        await provider.waitForTransaction(hash);
         // (10) display alert message
+        alert(`Transaction sent! Hash: ${hash}`);
 
         //call allGroupbuys to refresh the current list
         await getAllPosts();
@@ -466,13 +483,17 @@ export default function Home() {
         const signer = provider.getSigner();
 
         // (11) create post contract instance
-
+        const postContractInstance = new ethers.Contract(
+          postData.postSCAddress,
+          postABI,
+          signer
+        );
         // (12) call likePost function from the post smart contract
-
+        let { hash } = await postContractInstance.likePost();
         // (13) wait for transaction to be mined
-
+        await provider.waitForTransaction(hash);
         // (14) display alert message
-
+        alert(`Transaction sent! Hash: ${hash}`);
         //call allGroupbuys to refresh the current list
         await getAllPosts();
 
