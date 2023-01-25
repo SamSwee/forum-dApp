@@ -154,7 +154,6 @@ export default function Home() {
           new_posts.push(newPost);
         }
       }
-
       setAllPosts(new_posts);
       setNoOfPosts(allPosts.posterAddress.length);
     }
@@ -184,7 +183,6 @@ export default function Home() {
           },
         ];
         const buffer = Buffer.from(JSON.stringify(postObj));
-
         const files = [new File([buffer], "post.json")];
         const cid = await storage.put(files);
         setLatestCid(cid);
@@ -489,7 +487,10 @@ export default function Home() {
           signer
         );
         // (12) call likePost function from the post smart contract
-        let { hash } = await postContractInstance.likePost();
+        let { hash } = await postContractInstance.upvotePost({
+          gasLimit: 1200000,
+        });
+
         // (13) wait for transaction to be mined
         await provider.waitForTransaction(hash);
         // (14) display alert message
