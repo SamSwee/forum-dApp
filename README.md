@@ -6,11 +6,10 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the forum dApp.
+![image](https://user-images.githubusercontent.com/12713419/214500308-a2411845-b3d3-4fe0-a4e6-f7ad76ede7ca.png)
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
