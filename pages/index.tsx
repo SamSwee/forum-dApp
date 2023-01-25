@@ -37,11 +37,11 @@ type PostDetail = {
 };
 
 export default function Home() {
-  const postManagerContract = "0xc50be80bbe51f8cfdfd5f112c3e1036576c07eb4"; //postManager smart contract address
+  const postManagerContract = "0x75bbee81a7b81e93320674e33205bde213ca53e4"; //postManager smart contract address
 
   //variables
   const [token, setToken] = useState<string>(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDkxODNBNDQ2QjVBNWIwNTc5MkNhMDJmMTg2NTRlQzZCNmYxYjExYmMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzM1OTQ4NTAxNzIsIm5hbWUiOiJteVRva2VuIn0.TLBI5PuN2bLiBEK7HIp59XN43EtTQR0f3BzxrJhxugA"
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGI0ODg2MDY3RjA4YzJDMDg1NTE5OTFkZDg3N2RhNjkyNEIwQjFkZTMiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzQ2MTY4NzcwNDMsIm5hbWUiOiJUb2tlbiJ9.4BdA6yfXnMtcCY0SsWbfnmnk80H16Y_yT4-rc3AugnU"
   );
 
   const [postTitle, setPostTitle] = useState<string>("");
